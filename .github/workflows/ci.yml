@@ -27,4 +27,4 @@ jobs:
         run: dotnet build CommunityLibrary.sln --configuration Release --no-restore
 
       - name: Run tests
-        run: dotnet test CommunityLibrary.sln --configuration Release --no-build --verbosity normal
+        run: dotnet test CommunityLibrary.sln --configuration Release --no-restore --verbosity normal
