@@ -1,0 +1,106 @@
+@model BookDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Books</a></li>
+        <li class="breadcrumb-item active">@Model.Title</li>
+    </ol>
+</nav>
+
+<div class="row g-4">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Book Details</h5>
+                @if (Model.IsAvailable)
+                {
+                    <span class="badge text-bg-success">Available</span>
+                }
+                else
+                {
+                    <span class="badge text-bg-warning text-dark">On Loan</span>
+                }
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Title</dt>
+                    <dd class="col-sm-8">@Model.Title</dd>
+
+                    <dt class="col-sm-4">Author</dt>
+                    <dd class="col-sm-8">@Model.Author</dd>
+
+                    <dt class="col-sm-4">ISBN</dt>
+                    <dd class="col-sm-8 text-muted">@Model.Isbn</dd>
+
+                    <dt class="col-sm-4">Category</dt>
+                    <dd class="col-sm-8"><span class="badge text-bg-secondary">@Model.Category</span></dd>
+                </dl>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary btn-sm">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-sm">Delete</a>
+                <a asp-action="Index" class="btn btn-outline-primary btn-sm ms-auto">Back to list</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <h5>Loan History</h5>
+        @if (!Model.RecentLoans.Any())
+        {
+            <p class="text-muted">No loans recorded for this book.</p>
+        }
+        else
+        {
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Member</th>
+                        <th>Loan Date</th>
+                        <th>Due Date</th>
+                        <th>Returned</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var loan in Model.RecentLoans)
+                    {
+                        <tr>
+                            <td>@loan.MemberName</td>
+                            <td>@loan.LoanDate.ToString("dd MMM yyyy")</td>
+                            <td>@loan.DueDate.ToString("dd MMM yyyy")</td>
+                            <td>
+                                @if (loan.ReturnedDate.HasValue)
+                                {
+                                    @loan.ReturnedDate.Value.ToString("dd MMM yyyy")
+                                }
+                                else
+                                {
+                                    <em class="text-muted">—</em>
+                                }
+                            </td>
+                            <td>
+                                @if (loan.ReturnedDate.HasValue)
+                                {
+                                    <span class="badge text-bg-secondary">Returned</span>
+                                }
+                                else if (loan.IsOverdue)
+                                {
+                                    <span class="badge text-bg-danger">Overdue</span>
+                                }
+                                else
+                                {
+                                    <span class="badge text-bg-info">Active</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

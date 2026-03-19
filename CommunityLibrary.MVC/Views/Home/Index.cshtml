@@ -1,0 +1,72 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1 class="mb-4">Library Dashboard</h1>
+
+<div class="row g-3 mb-5">
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-bg-primary h-100">
+            <div class="card-body">
+                <h6 class="card-title text-uppercase fw-semibold opacity-75">Total Books</h6>
+                <p class="display-5 fw-bold mb-0">@ViewBag.TotalBooks</p>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="Books" asp-action="Index" class="text-white text-decoration-none small">View all →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-bg-success h-100">
+            <div class="card-body">
+                <h6 class="card-title text-uppercase fw-semibold opacity-75">Members</h6>
+                <p class="display-5 fw-bold mb-0">@ViewBag.TotalMembers</p>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="Members" asp-action="Index" class="text-white text-decoration-none small">View all →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-bg-info h-100">
+            <div class="card-body">
+                <h6 class="card-title text-uppercase fw-semibold opacity-75">Active Loans</h6>
+                <p class="display-5 fw-bold mb-0">@ViewBag.ActiveLoans</p>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="Loans" asp-action="Index" asp-route-statusFilter="active"
+                   class="text-white text-decoration-none small">View active →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-bg-danger h-100">
+            <div class="card-body">
+                <h6 class="card-title text-uppercase fw-semibold opacity-75">Overdue</h6>
+                <p class="display-5 fw-bold mb-0">@ViewBag.OverdueLoans</p>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="Loans" asp-action="Index" asp-route-statusFilter="overdue"
+                   class="text-white text-decoration-none small">View overdue →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <a asp-controller="Books" asp-action="Create" class="btn btn-outline-primary w-100 py-3">
+            + Add Book
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a asp-controller="Members" asp-action="Create" class="btn btn-outline-success w-100 py-3">
+            + Register Member
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a asp-controller="Loans" asp-action="Create" class="btn btn-outline-info w-100 py-3">
+            + Issue Loan
+        </a>
+    </div>
+</div>

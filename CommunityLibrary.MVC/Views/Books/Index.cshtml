@@ -1,0 +1,86 @@
+@model BookIndexViewModel
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Books</h1>
+    <a asp-action="Create" class="btn btn-primary">+ Add Book</a>
+</div>
+
+<form asp-action="Index" method="get" class="row g-2 mb-4">
+    <div class="col-md-4">
+        <input type="text" name="searchTerm" value="@Model.SearchTerm"
+               placeholder="Search by title or author…" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <select name="categoryFilter" class="form-select">
+            <option value="">— All Categories —</option>
+            @foreach (var cat in Model.CategoryOptions)
+            {
+                <option value="@cat.Value" selected="@(cat.Value == Model.CategoryFilter)">
+                    @cat.Text
+                </option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select name="availabilityFilter" class="form-select">
+            <option value=""      selected="@(Model.AvailabilityFilter == null)">— All —</option>
+            <option value="available" selected="@(Model.AvailabilityFilter == "available")">Available</option>
+            <option value="onloan"    selected="@(Model.AvailabilityFilter == "onloan")">On Loan</option>
+        </select>
+    </div>
+    <div class="col-md-2 d-flex gap-2">
+        <button type="submit" class="btn btn-secondary flex-fill">Filter</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+    </div>
+</form>
+
+@if (!Model.Books.Any())
+{
+    <div class="alert alert-info">No books match your search.</div>
+}
+else
+{
+    <table class="table table-hover table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>ISBN</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.Books)
+            {
+                <tr>
+                    <td>@book.Title</td>
+                    <td>@book.Author</td>
+                    <td><span class="badge text-bg-secondary">@book.Category</span></td>
+                    <td class="text-muted small">@book.Isbn</td>
+                    <td>
+                        @if (book.IsAvailable)
+                        {
+                            <span class="badge text-bg-success">Available</span>
+                        }
+                        else
+                        {
+                            <span class="badge text-bg-warning text-dark">On Loan</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                        <a asp-action="Edit"    asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a asp-action="Delete"  asp-route-id="@book.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p class="text-muted small">Showing @Model.Books.Count book(s).</p>
+}

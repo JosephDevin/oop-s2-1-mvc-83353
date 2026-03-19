@@ -1,0 +1,91 @@
+@model LoanIndexViewModel
+
+@{
+    ViewData["Title"] = "Loans";
+    string? f = Model.StatusFilter;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Loans</h1>
+    <a asp-action="Create" class="btn btn-primary">+ Issue Loan</a>
+</div>
+
+<ul class="nav nav-pills mb-3">
+    <li class="nav-item">
+        <a class="nav-link @(f == null ? "active" : "")" asp-action="Index">All</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(f == "active" ? "active" : "")"
+           asp-action="Index" asp-route-statusFilter="active">Active</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(f == "overdue" ? "active" : "") text-danger"
+           asp-action="Index" asp-route-statusFilter="overdue">Overdue</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(f == "returned" ? "active" : "")"
+           asp-action="Index" asp-route-statusFilter="returned">Returned</a>
+    </li>
+</ul>
+
+@if (!Model.Loans.Any())
+{
+    <div class="alert alert-info">No loans found for this filter.</div>
+}
+else
+{
+    <table class="table table-hover table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Book</th>
+                <th>Member</th>
+                <th>Loan Date</th>
+                <th>Due Date</th>
+                <th>Returned</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var loan in Model.Loans)
+            {
+                <tr>
+                    <td>@loan.BookTitle</td>
+                    <td>@loan.MemberName</td>
+                    <td>@loan.LoanDate.ToString("dd MMM yyyy")</td>
+                    <td class="@(loan.IsOverdue ? "text-danger fw-semibold" : "")">
+                        @loan.DueDate.ToString("dd MMM yyyy")
+                    </td>
+                    <td>
+                        @if (loan.ReturnedDate.HasValue)
+                        {
+                            @loan.ReturnedDate.Value.ToString("dd MMM yyyy")
+                        }
+                        else
+                        {
+                            <em class="text-muted">—</em>
+                        }
+                    </td>
+                    <td>
+                        @if (loan.ReturnedDate.HasValue)
+                        {
+                            <span class="badge text-bg-secondary">Returned</span>
+                        }
+                        else if (loan.IsOverdue)
+                        {
+                            <span class="badge text-bg-danger">Overdue</span>
+                        }
+                        else
+                        {
+                            <span class="badge text-bg-info">Active</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <a asp-action="Details" asp-route-id="@loan.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p class="text-muted small">@Model.Loans.Count loan(s) shown.</p>
+}

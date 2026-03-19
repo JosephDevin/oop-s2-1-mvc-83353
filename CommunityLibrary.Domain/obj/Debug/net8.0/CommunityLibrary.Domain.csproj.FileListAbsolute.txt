@@ -1,0 +1,11 @@
+/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/bin/Debug/net8.0/CommunityLibrary.Domain.deps.json
+/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/bin/Debug/net8.0/CommunityLibrary.Domain.dll
+/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/bin/Debug/net8.0/CommunityLibrary.Domain.pdb
+/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/obj/Debug/net8.0/CommunityLibrary.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/obj/Debug/net8.0/CommunityLibrary.Domain.AssemblyInfoInputs.cache
+/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/obj/Debug/net8.0/CommunityLibrary.Domain.AssemblyInfo.cs
+/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/obj/Debug/net8.0/CommunityLibrary.Domain.csproj.CoreCompileInputs.cache
+/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/obj/Debug/net8.0/CommunityLibrary.Domain.dll
+/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/obj/Debug/net8.0/refint/CommunityLibrary.Domain.dll
+/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/obj/Debug/net8.0/CommunityLibrary.Domain.pdb
+/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/obj/Debug/net8.0/ref/CommunityLibrary.Domain.dll

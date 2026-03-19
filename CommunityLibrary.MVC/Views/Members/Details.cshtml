@@ -1,0 +1,90 @@
+@model MemberDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.FullName;
+}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Members</a></li>
+        <li class="breadcrumb-item active">@Model.FullName</li>
+    </ol>
+</nav>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header"><h5 class="mb-0">Member Details</h5></div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Name</dt>
+                    <dd class="col-sm-8">@Model.FullName</dd>
+
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8"><a href="mailto:@Model.Email">@Model.Email</a></dd>
+
+                    <dt class="col-sm-4">Phone</dt>
+                    <dd class="col-sm-8">@(string.IsNullOrEmpty(Model.Phone) ? "—" : Model.Phone)</dd>
+                </dl>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary btn-sm">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-sm">Delete</a>
+                <a asp-action="Index" class="btn btn-outline-primary btn-sm ms-auto">Back</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <h5>Loan History</h5>
+        @if (!Model.Loans.Any())
+        {
+            <p class="text-muted">No loans recorded for this member.</p>
+        }
+        else
+        {
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Loan Date</th>
+                        <th>Due Date</th>
+                        <th>Returned</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var loan in Model.Loans)
+                    {
+                        <tr>
+                            <td>@loan.BookTitle</td>
+                            <td>@loan.LoanDate.ToString("dd MMM yyyy")</td>
+                            <td>@loan.DueDate.ToString("dd MMM yyyy")</td>
+                            <td>
+                                @if (loan.ReturnedDate.HasValue)
+                                {
+                                    @loan.ReturnedDate.Value.ToString("dd MMM yyyy")
+                                }
+                                else { <em class="text-muted">—</em> }
+                            </td>
+                            <td>
+                                @if (loan.ReturnedDate.HasValue)
+                                {
+                                    <span class="badge text-bg-secondary">Returned</span>
+                                }
+                                else if (loan.IsOverdue)
+                                {
+                                    <span class="badge text-bg-danger">Overdue</span>
+                                }
+                                else
+                                {
+                                    <span class="badge text-bg-info">Active</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

@@ -1,0 +1,86 @@
+@model RoleIndexViewModel
+
+@{
+    ViewData["Title"] = "Role Management";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Role Management</h1>
+    <span class="badge text-bg-warning text-dark fs-6">Admin Only</span>
+</div>
+
+<div class="row g-4">
+    @* Create new role *@
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header"><h5 class="mb-0">Create Role</h5></div>
+            <div class="card-body">
+                <form asp-action="CreateRole">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="NewRole.Name" class="form-label"></label>
+                        <input asp-for="NewRole.Name" class="form-control" autofocus
+                               placeholder="e.g. Librarian" />
+                        <span asp-validation-for="NewRole.Name" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Create Role</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @* Existing roles *@
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header"><h5 class="mb-0">Existing Roles</h5></div>
+            <div class="card-body p-0">
+                @if (!Model.Roles.Any())
+                {
+                    <p class="p-3 text-muted mb-0">No roles defined yet.</p>
+                }
+                else
+                {
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Role Name</th>
+                                <th>ID</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var role in Model.Roles)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@role.Name</td>
+                                    <td class="text-muted small font-monospace">@role.Id</td>
+                                    <td class="text-end">
+                                        @if (role.Name != "Admin")
+                                        {
+                                            <form asp-action="DeleteRole" method="post" class="d-inline"
+                                                  onsubmit="return confirm('Delete role?');">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@role.Id" />
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted small">Protected</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

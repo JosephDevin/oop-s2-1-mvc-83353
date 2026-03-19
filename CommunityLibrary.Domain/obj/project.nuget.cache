@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "aPYq0a33aKc=",
+  "success": true,
+  "projectFilePath": "/home/fan/Desktop/LibraryDesk/CommunityLibrary.Domain/CommunityLibrary.Domain.csproj",
+  "expectedPackageFiles": [
+    "/home/fan/.nuget/packages/microsoft.netcore.app.ref/8.0.23/microsoft.netcore.app.ref.8.0.23.nupkg.sha512",
+    "/home/fan/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.23/microsoft.aspnetcore.app.ref.8.0.23.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,90 @@
+@model LoanDetailsViewModel
+
+@{
+    ViewData["Title"] = $"Loan #{Model.Id}";
+}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Loans</a></li>
+        <li class="breadcrumb-item active">Loan #@Model.Id</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Loan #@Model.Id</h5>
+                @if (Model.ReturnedDate.HasValue)
+                {
+                    <span class="badge text-bg-secondary">Returned</span>
+                }
+                else if (Model.IsOverdue)
+                {
+                    <span class="badge text-bg-danger">Overdue</span>
+                }
+                else
+                {
+                    <span class="badge text-bg-info">Active</span>
+                }
+            </div>
+
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Book</dt>
+                    <dd class="col-sm-8">
+                        <a asp-controller="Books" asp-action="Details" asp-route-id="@Model.BookId">
+                            @Model.BookTitle
+                        </a>
+                        <small class="text-muted d-block">@Model.BookAuthor</small>
+                    </dd>
+
+                    <dt class="col-sm-4">Member</dt>
+                    <dd class="col-sm-8">
+                        <a asp-controller="Members" asp-action="Details" asp-route-id="@Model.MemberId">
+                            @Model.MemberName
+                        </a>
+                    </dd>
+
+                    <dt class="col-sm-4">Loan Date</dt>
+                    <dd class="col-sm-8">@Model.LoanDate.ToString("dd MMM yyyy")</dd>
+
+                    <dt class="col-sm-4">Due Date</dt>
+                    <dd class="col-sm-8 @(Model.IsOverdue ? "text-danger fw-semibold" : "")">
+                        @Model.DueDate.ToString("dd MMM yyyy")
+                        @if (Model.IsOverdue)
+                        {
+                            <small>(overdue by @((DateTime.Today - Model.DueDate).Days) day(s))</small>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-4">Returned</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.ReturnedDate.HasValue)
+                        {
+                            @Model.ReturnedDate.Value.ToString("dd MMM yyyy")
+                        }
+                        else
+                        {
+                            <em class="text-muted">Not yet returned</em>
+                        }
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="card-footer d-flex gap-2">
+                @if (!Model.ReturnedDate.HasValue)
+                {
+                    <form asp-action="MarkReturned" asp-route-id="@Model.Id" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-success btn-sm">
+                            ✓ Mark as Returned
+                        </button>
+                    </form>
+                }
+                <a asp-action="Index" class="btn btn-outline-secondary btn-sm ms-auto">Back to Loans</a>
+            </div>
+        </div>
+    </div>
+</div>

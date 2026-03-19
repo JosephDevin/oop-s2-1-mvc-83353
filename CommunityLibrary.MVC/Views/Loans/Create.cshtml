@@ -1,0 +1,58 @@
+@model LoanCreateViewModel
+
+@{
+    ViewData["Title"] = "Issue Loan";
+}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Loans</a></li>
+        <li class="breadcrumb-item active">Issue Loan</li>
+    </ol>
+</nav>
+
+<h1>Issue Loan</h1>
+
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="MemberId" class="form-label"></label>
+                <select asp-for="MemberId" asp-items="Model.MemberOptions" class="form-select">
+                    <option value="">— Select a member —</option>
+                </select>
+                <span asp-validation-for="MemberId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="BookId" class="form-label"></label>
+                <select asp-for="BookId" asp-items="Model.BookOptions" class="form-select">
+                    <option value="">— Select an available book —</option>
+                </select>
+                <span asp-validation-for="BookId" class="text-danger"></span>
+                <div class="form-text">Only books currently available are shown.</div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="LoanDate" class="form-label"></label>
+                <input asp-for="LoanDate" type="date" class="form-control" />
+                <span asp-validation-for="LoanDate" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DueDate" class="form-label"></label>
+                <input asp-for="DueDate" type="date" class="form-control" />
+                <span asp-validation-for="DueDate" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Issue Loan</button>
+            <a asp-action="Index" class="btn btn-outline-secondary ms-2">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
