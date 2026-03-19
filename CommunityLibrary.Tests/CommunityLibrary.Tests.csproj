@@ -25,4 +25,7 @@
     <ProjectReference Include="..\CommunityLibrary.MVC\CommunityLibrary.MVC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="35.6.1" />
+  </ItemGroup>
 </Project>
